@@ -2,10 +2,12 @@ package com.example.YESserver;
 
 import com.example.YESserver.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.sql.*;
+import java.util.Optional;
 
 @RestController // This means that this class is a Controller
 
@@ -314,6 +316,25 @@ public class MainController {
         }
     }
 
+    // example: http://localhost:8080/admin/display_user
+    @GetMapping(path="/admin/display_user")
+    public String display_user() throws SQLException {
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/yes_database","root","");
+
+        Statement stmt = con.createStatement();
+
+        try {
+            ResultSet rs = stmt.executeQuery("Select user_id, name, user_role, email from users limit 50");
+
+            return viewTable(rs, "All users (up to first 50)");
+
+        }
+        catch (Exception e) {
+            return "Error";
+        }
+    }
+
     // example: http://localhost:8080/admin/add_user?username=Marina_Wang_01&password=marina1&role="student"&name="Marina_Wang"&email="marina.wang@vanderbilt.edu"
     @PostMapping(path="/admin/add_user") // Map ONLY POST Requests
     public String addNewUser (@RequestParam("username") String username,
@@ -330,7 +351,8 @@ public class MainController {
         try {
             User n = new User();
             n.setUserName(username);
-            n.setPassword(password);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            n.setPassword(passwordEncoder.encode(password));
             n.setActive(true);
             if (role.equals("\"student\"") || role.equals("\"instructor\"")) {
                 n.setRoles("ROLE_USER");
@@ -364,41 +386,89 @@ public class MainController {
 
 
 
-//
-//
-//    // The following mappings are for the instructor
-//
-//
-//    // example: http://localhost:8080/instructor/add_student_to_course?user_id="Acar_Ary_01"&course_id="MATH2300"
-//    @PostMapping(path="/instructor/add_student_to_course")
-//    public String add_student_to_course(@RequestParam("user_id") String user_id,
-//                                        @RequestParam("course_id") String course_id) throws SQLException {
-//        Connection con = DriverManager.getConnection(
-//                "jdbc:mysql://localhost:3306/yes_database","root","");
-//
-//        Statement stmt = con.createStatement();
-//
-//
-//
-//        try {
-//
-//            if (EXISTS(SELECT 1 FROM dbo.Customer WITH(NOLOCK)
-//                    WHERE CustId = @CustId)
-//
-//
-//            stmt.executeUpdate("DELETE FROM courses WHERE user_id = " + user_id + " and course_if = " + course_id);
-//
-//            stmt.executeUpdate("INSERT INTO courses VALUES (" + user_id + ", " + course_id + ", 'enrolled')");
-//
-//            return "Successfully added the course";
-//
-//        }
-//        catch (Exception e) {
-//            return "Error";
-//        }
-//    }
-//
-//
+
+
+    // The following mappings are for the instructor
+
+
+    // example: http://localhost:8080/instructor/add_student_to_course?user_id="Acar_Ary_01"&course_id="MATH2300"
+    @PostMapping(path="/instructor/add_student_to_course")
+    public String add_student_to_course(@RequestParam("user_id") String user_id,
+                                        @RequestParam("course_id") String course_id) throws SQLException {
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/yes_database","root","");
+
+        Statement stmt = con.createStatement();
+
+        try {
+
+            stmt.executeUpdate("DELETE FROM schedules WHERE user_id = " + user_id + " and course_id = " + course_id);
+
+            stmt.executeUpdate("INSERT INTO schedules VALUES (" + user_id + ", " + course_id + ", 'enrolled')");
+
+            return "Successfully added the course";
+
+        }
+        catch (Exception e) {
+            return "Error";
+        }
+    }
+
+    // example: http://localhost:8080/instructor/remove_student_from_course?user_id="Charlie_Xu_01"&course_id="MATH2810"
+    @PostMapping(path="/instructor/remove_student_from_course")
+    public String remove_student_from_course(@RequestParam("user_id") String user_id,
+                                             @RequestParam("course_id") String course_id) throws SQLException {
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/yes_database","root","");
+
+        Statement stmt = con.createStatement();
+
+        try {
+
+            stmt.executeUpdate("DELETE FROM schedules WHERE user_id = " + user_id + " and course_id = " + course_id + " and course_status = \"enrolled\"");
+
+            return "Successfully removed from the course";
+
+        }
+        catch (Exception e) {
+            return "Error";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    // The following mappings are for the student
+
+    // example: http://localhost:8080/student/enroll_course?user_id="Frank_Tian_01"&course_id="MATH2810"&course_status="enrolled"
+    @PostMapping(path="/student/enroll_course")
+    public String add_course(@RequestParam("user_id") String user_id,
+                             @RequestParam("course_id") String course_id,
+                             @RequestParam("course_status") String course_status) throws SQLException {
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/yes_database","root","");
+
+        Statement stmt = con.createStatement();
+
+        try {
+            stmt.executeUpdate("INSERT INTO schedules VALUES (" + user_id + ", " + course_id + ", " + course_status + ")");
+
+            return "Successfully added the course";
+
+        }
+        catch (Exception e) {
+            return "Error";
+        }
+    }
+
 
 
 
@@ -419,5 +489,126 @@ public class MainController {
     public Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Vulnerabilities API
+
+
+    // SQL Injection Vulnerability
+    //
+    // When type in
+    // "http://localhost:8080/sql_injection_test?user_id="Charlie_Xu_01";+drop+table+if+exists+users"
+    // in the browser, the user table will be maliciously deleted
+
+    // Solutions:
+    // 1.
+    // Remove "?allowMultiQueries=true" from the connection so that only one query can be executed at a time
+    // 2.
+    // Use executeQuery instead of execute so that no updates can be made to the tables
+
+    @PostMapping("/sql_injection_test")
+    public String SQLInjectionTest(@RequestParam("user_id") String user_id) throws SQLException {
+//        // Incorrect version
+//        Connection con = DriverManager.getConnection(
+//                "jdbc:mysql://localhost:3306/yes_database?allowMultiQueries=true","root","");
+
+        // Correct version
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/yes_database","root","");
+
+        Statement stmt = con.createStatement();
+        String insertEmp1 = "SELECT name FROM users WHERE user_id = " + user_id;
+        try {
+            stmt.execute(insertEmp1);
+            return ("Success");
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    // XSS Vulnerability
+    @GetMapping("/xss_test")
+    public String XSSTest(@RequestParam("name") String name) {
+        // Allows for javascript code to be entered as a value for the url key "value"
+        // leading to security vulnerabilities
+        return ("<p>Hello. </p>" + "Sincerely, " + name);
+    }
+
+    // CSRF Vulnerability
+    @PostMapping("/admin/get_id_by_name")
+    public String CSRFTest(@RequestParam("userName") String userName) throws SQLException {
+
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/yes_database","root","");
+        Statement stmt = con.createStatement();
+        String query = "SELECT * FROM user WHERE username = '" + userName + "'";
+
+        try {
+            stmt.execute(query);
+            return ("Success");
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    // Password Encoding Vulnerability
+    @GetMapping("/password_encoder_test")
+    public String PasswordEncoderTest() {
+
+        User n = new User();
+        n.setUserName("Marina_Wang_01");
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        n.setPassword(passwordEncoder.encode("marina1"));
+        n.setActive(true);
+        n.setRoles("ROLE_USER");
+        userRepository.save(n);
+
+        Optional<User> myUser = userRepository.findByUserName("Marina_Wang_01");
+        if (myUser.isPresent()) {
+            if (myUser.get().getPassword().equals(passwordEncoder.encode("marina1"))) {
+                return "Success";
+            }
+            else {
+                return "Failure";
+            }
+
+        }
+        else {
+            return "User not Present";
+        }
     }
 }
