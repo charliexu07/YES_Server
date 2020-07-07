@@ -1,14 +1,15 @@
 CREARE DATABASE IF NOT EXIST YES_database;
 USE YES_database;
 
-CREATE TABLE user {
+DROP TABLE If EXISTS user;
+CREATE TABLE user (
     id INTEGER NOT NULL,
     active BOOLEAN,
     password VARCHAR(255),
     roles VARCHAR(255),
     user_name VARCHAR(255),
     PRIMARY KEY (id)
-};
+);
 
 DROP TABLE If EXISTS courses;
 CREATE TABLE courses (
