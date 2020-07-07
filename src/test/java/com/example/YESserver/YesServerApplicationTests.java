@@ -95,14 +95,13 @@ public class YesServerApplicationTests {
 				.andReturn().getResponse().getContentAsString();
 	}
 
-//	// This test should pass if vulnerability doesn't exist
-//	@Test
-//	public void testPasswordEncoder() throws Exception {
-//
-//		String result = mockMvc.perform(get("/password_encoder_test"))
-//				.andExpect(status().isOk())
-//				.andReturn().getResponse().getContentAsString();
-//		Assert.isTrue(result.equals("Success"));
-//	}
-}
+	// This test should pass if vulnerability doesn't exist
+	@Test
+	public void testPasswordEncoder() throws Exception {
 
+		String result = mockMvc.perform(get("/password_encoder_test"))
+				.andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		Assert.isTrue(result.equals("Success"));
+	}
+}

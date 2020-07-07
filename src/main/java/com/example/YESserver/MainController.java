@@ -608,17 +608,11 @@ public class MainController {
     @GetMapping("/password_encoder_test")
     public String PasswordEncoderTest() {
 
-        User n = new User();
-        n.setUserName("Marina_Wang_01");
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        n.setPassword(passwordEncoder.encode("marina1"));
-        n.setActive(true);
-        n.setRoles("ROLE_USER");
-        userRepository.save(n);
 
         Optional<User> myUser = userRepository.findByUserName("Marina_Wang_01");
         if (myUser.isPresent()) {
-            if (myUser.get().getPassword().equals(passwordEncoder.encode("marina1"))) {
+            if (passwordEncoder.matches(myUser.get().getPassword(), "marina1")) {
                 return "Success";
             }
             else {
