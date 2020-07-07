@@ -1,5 +1,3 @@
---drop database if exists YES_Database;
---create database YES_Database;
 CREARE DATABASE IF NOT EXIST YES_database;
 USE YES_database;
 
