@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS YES_database;
 USE YES_database;
 
-DROP TABLE If EXISTS user;
 CREATE TABLE user (
     id INTEGER NOT NULL,
     active BOOLEAN,
@@ -11,7 +10,6 @@ CREATE TABLE user (
     PRIMARY KEY (id)
 );
 
-DROP TABLE If EXISTS courses;
 CREATE TABLE courses (
 	  course_id          VARCHAR(10)    PRIMARY KEY,
 	  course_hour        INT            NOT NULL,
@@ -23,7 +21,6 @@ CREATE TABLE courses (
 	  waitlist_capacity  INT            NOT NULL
 );
 
-DROP TABLE If EXISTS users;
 CREATE TABLE users (
 	  user_id            VARCHAR(255)   PRIMARY KEY,
 	  name               VARCHAR(255)   NOT NULL,
@@ -32,7 +29,6 @@ CREATE TABLE users (
 	  email              VARCHAR(255)   NOT NULL
 );
 
-DROP TABLE If EXISTS schedules;
 CREATE TABLE schedules (
 	  user_id            VARCHAR(255)   NOT NULL,
 	  course_id          VARCHAR(10)    NOT NULL,
@@ -47,7 +43,7 @@ CREATE TABLE schedules (
 		ON UPDATE CASCADE
 );
 
-INSERT INTO USER VALUES (1, TRUE, '$2a$10$iXp2FjskWIo/rxYzgISsleP.iLRYJ0G5PZl.68cZDXDqENnrs7Cj2', 'ROLE_USER', 'Marina_Wang_01');
+INSERT INTO user VALUES (1, TRUE, '$2a$10$iXp2FjskWIo/rxYzgISsleP.iLRYJ0G5PZl.68cZDXDqENnrs7Cj2', 'ROLE_USER', 'Marina_Wang_01');
 
 INSERT INTO courses VALUES
 	('MATH2300', 3, 'Math', 'Multivariable Calculus', 30, 30, 15, 20),
