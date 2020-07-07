@@ -335,6 +335,25 @@ public class MainController {
         }
     }
 
+    // example: http://localhost:8080/admin/display_user/{user_id}
+    @GetMapping(path="/admin/display_user/{user_id}")
+    public String display_user(@PathVariable("user_id") String user_id) throws SQLException {
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/yes_database","root","");
+
+        Statement stmt = con.createStatement();
+
+        try {
+            ResultSet rs = stmt.executeQuery("Select user_id, name, user_role, email from users where user_id = \"" + user_id + "\"");
+
+            return viewTable(rs, user_id + " Info");
+
+        }
+        catch (Exception e) {
+            return "Error";
+        }
+    }
+
     // example: http://localhost:8080/admin/add_user?username=Marina_Wang_01&password=marina1&role="student"&name="Marina_Wang"&email="marina.wang@vanderbilt.edu"
     @PostMapping(path="/admin/add_user") // Map ONLY POST Requests
     public String addNewUser (@RequestParam("username") String username,
@@ -605,7 +624,6 @@ public class MainController {
             else {
                 return "Failure";
             }
-
         }
         else {
             return "User not Present";
