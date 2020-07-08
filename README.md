@@ -18,7 +18,7 @@ or a user. A detailed description of all functionalities is attached below
 
 
 
-# Login and Credential Information
+### Login and Credential Information
 
 
 
