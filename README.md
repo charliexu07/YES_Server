@@ -18,7 +18,7 @@ or a user. A detailed description of all functionalities is attached below
 
 
 
-### Login and Credential Information
+### Login and Credential Information: 
 
 
 
@@ -60,7 +60,7 @@ or a user. A detailed description of all functionalities is attached below
 
 
 
-### Catalog
+### Catalog: 
 
 
 
@@ -96,7 +96,7 @@ or a user. A detailed description of all functionalities is attached below
 
 
 
-### Schedule
+### Schedule: 
 
 
 
@@ -126,7 +126,7 @@ or a user. A detailed description of all functionalities is attached below
 
 
 
-### Admin
+### Admin: 
 
 
 
@@ -162,7 +162,7 @@ or a user. A detailed description of all functionalities is attached below
 
 
 
-### Instructor
+### Instructor: 
 
 
 
@@ -180,7 +180,7 @@ or a user. A detailed description of all functionalities is attached below
 
 
 
-### Student
+### Student: 
 
 
 
@@ -199,7 +199,7 @@ or a user. A detailed description of all functionalities is attached below
 
 
  
-## Spring security vulnerability design
+## Spring security vulnerability design: 
 
 ### Brute Force Attack on login information
 * Description: On /login page, an attacker can try as many username-password pairs as it wants
