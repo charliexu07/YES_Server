@@ -72,6 +72,7 @@ public class YesServerApplicationTests {
 		String result = mockMvc.perform(post("/sql_injection_test?user_id=\"Charlie_Xu_01\"").with(csrf()))
 				.andExpect(status().isOk())
 				.andReturn().getResponse().getContentAsString();
+		System.out.println(result);
 		Assert.isTrue(result.equals("Success"));
 	}
 
@@ -103,6 +104,7 @@ public class YesServerApplicationTests {
 		String result = mockMvc.perform(get("/password_encoder_test"))
 				.andExpect(status().isOk())
 				.andReturn().getResponse().getContentAsString();
+		System.out.println(result);
 		Assert.isTrue(result.equals("Success"));
 	}
 }

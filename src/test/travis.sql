@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS YES_Database;
-CREATE DATABASE YES_database;
-USE YES_database;
+DROP DATABASE IF EXISTS yes_database;
+CREATE DATABASE yes_database;
+USE yes_database;
 
 CREATE TABLE user (
     id INTEGER NOT NULL,
