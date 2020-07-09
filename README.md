@@ -194,66 +194,35 @@ or a user. A detailed description of all functionalities is attached below
 
 
 
-
-
-
-
  
 ## Spring security vulnerability design: 
-
-### Brute Force Attack on login information
-* Description: On /login page, an attacker can try as many username-password pairs as it wants
-* Demo: see test fucnction
-* Test function: testBFA()
-* Location: N/A 
-* Solution: Implement classes that keep track of login failure information using spring security framework. See https://www.baeldung.com/spring-security-block-brute-force-authentication-attempts
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
-
-### Improper api design (exposing admin authorities to users)
-* Description: On /index page, a user is allowed to see the link for /admin page whhich is a page only authorized to ADMIN
-* Demo: 
-* Test function: none
-* Location: HomeResource.java, Line: 19-21
-* Solution: After login, direct users with different roles to corresponding index pages that only list the corresponding authorities of that role.
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0; implement a working listener class and pass the test +5;
-
-### Invalid inputs that cause sql server error
-* Description: On /get_product_info_by_id page, an attacker can enter anything rather than a product id which is an integer. This will cause server error.
-* Demo: see test fucnction
-* Test function: testInvalidSqlInput()
-* Location: HomeResource.java, Line: 48-50
-* Solution: Implement code that sanitize user input, see the source code comment for sample solution.
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### Unauthorized access of system by anyone
 * Description: /admin page can be accessed by an attacker without being authenticated
 * Demo: see test fucnction
-* Test function: testUnauthenticatedAccess()
-* Location: SecurityConfiguration.java, Line: 36 
-* Solution: Refine authority assigned to each role, see the source code comment for sample solution.
+* Test function: testUser(), testWrongUser()
+* Solution: Refine authority assigned to each role
+* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
+
+### XSS attack
+* Description: An attacker inject a malicious piece of script into the url
+* Demo: see test fucnction
+* Test function: testCSRF()
+* Solution: Ensure the script can be caught
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### CSRF attack
-* Description: On /get_product_info_by_id page, an attacker cause user to carry out a query on product information unintentionally.
+* Description: An attacker cause user to carry out a query on product information unintentionally.
 * Demo: see test fucnction
 * Test function: testCSRF()
-* Location: SecurityConfiguration.java, Line: 49
-* Solution: Enable csrf protection provided by spring security, see the source code comment for sample solution.
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
-
-### Expose of sql source code
-* Description: In the HomeSource.java file, the sql quey used by /get_product_info_by_id is exposed.
-* Demo:
-* Test function: none
-* Location: HomeResource.java, Line: 69-71
-* Solution: Implement mysql procedure in the database management system and call procedure in source code instead, see the source code comment for sample solution.
+* Solution: Enable csrf protection provided by spring security
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### Sql injection attack
-* Description: On /get_product_info_by_id page, an attacker can enter additional sql query element along with a product id. This will expose data in the database.
+* Description: An attacker can enter additional sql query element along with a product id. This will expose data in the database.
 * Demo: see test fucnction
-* Test function: testSQLInjection()
-* Location: HomeResource.java, Line: 81
-* Solution: Implement code that sanitize user input, see the source code comment for sample solution.
+* Test function: testSQLInjection1() and testSQLInjection2()
+* Solution: Ensure that only one query can be executed at a time when connecting tp database
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
+(Finalizing more)
