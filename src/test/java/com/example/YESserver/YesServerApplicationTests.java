@@ -107,21 +107,21 @@ public class YesServerApplicationTests {
 //		System.out.println(result);
 //		Assert.isTrue(result.equals("Success"));
 //	}
-//
-//	// This test should pass if vulnerability doesn't exist
-//	@Test
-//	public void testBruteForce() throws Exception {
-//		for (int bfaTries = 0; bfaTries < 9; bfaTries ++) {
-//			String url = "/login?username=admin&password=" + bfaTries;
-//			String result = mockMvc.perform(post(url).with(csrf()))
-//					.andExpect(status().is3xxRedirection())
-//					.andExpect(redirectedUrl("/login?error"))
-//					.andReturn().getResponse().getContentAsString();
-//		}
-//		String url = "/login?username=admin&password=" + 10;
-//		String result = mockMvc.perform(post(url).with(csrf()))
-//				.andExpect(status().is3xxRedirection())
-//				.andExpect(redirectedUrl("/login?locked"))
-//				.andReturn().getResponse().getContentAsString();
-//	}
+
+	// This test should pass if vulnerability doesn't exist
+	@Test
+	public void testBruteForce() throws Exception {
+		for (int bfaTries = 0; bfaTries < 9; bfaTries ++) {
+			String url = "/login?username=admin&password=" + bfaTries;
+			String result = mockMvc.perform(post(url).with(csrf()))
+					.andExpect(status().is3xxRedirection())
+					.andExpect(redirectedUrl("/login?error"))
+					.andReturn().getResponse().getContentAsString();
+		}
+		String url = "/login?username=admin&password=" + 10;
+		String result = mockMvc.perform(post(url).with(csrf()))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/login?locked"))
+				.andReturn().getResponse().getContentAsString();
+	}
 }
