@@ -606,11 +606,17 @@ public class MainController {
 
     // Password Encoding Vulnerability
     @GetMapping("/password_encoder_test")
-    public String PasswordEncoderTest() {
+    public String PasswordEncoderTest() throws SQLException {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+        Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/yes_database","root","");
+        Statement stmt = con.createStatement();
+        String query = "INSERT INTO user VALUES (1, TRUE, '$2a$10$iXp2FjskWIo/rxYzgISsleP.iLRYJ0G5PZl.68cZDXDqENnrs7Cj2', 'ROLE_USER', 'Marina_Wang_01')";
+
         Optional<User> myUser = userRepository.findByUserName("Marina_Wang_01");
+
         if (myUser.isPresent()) {
             if (passwordEncoder.matches(myUser.get().getPassword(), "marina1")) {
                 return "Success";
