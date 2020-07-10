@@ -225,18 +225,18 @@ or a user. A detailed description of all functionalities is attached below
 * Solution: Ensure that only one query can be executed at a time when connecting tp database
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
+### Password Encoder Vulnerability
+* Description: If the password of the user is stored in plain text, the attacker might be able to hack into the system and obtain the password
+* Demo: see test function
+* Test function: testPasswordEncoder()
+* Solution: Use BCryptPasswordEncoder to encode the password before storing user information into the database. Also, during the login process, the entered password will also be encripted to match the password stored in database.
+* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
+
 ### Brute Force Attack on login information (under implementation)
 * Description: On /login page, an attacker can try as many username-password pairs as it wants
 * Demo: see test fucnction
 * Test function: testBFA()
 * Solution: Implement classes that keep track of login failure information using spring security framework. See https://www.baeldung.com/spring-security-block-brute-force-authentication-attempts
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
-
-### Password Encoder Vulnerability (under implementation)
-* Description: If the password of the user is stored in plain text, the attacker might be able to hack into the system and obtain the password
-* Demo: see test function
-* Test function: testPasswordEncoder()
-* Solution: Use BCryptPasswordEncoder to encode the password before storing user information into the database. Also, during the login process, the entered password will also be encripted to match the password stored in database.
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 (Finalizing more)
