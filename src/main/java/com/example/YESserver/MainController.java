@@ -618,7 +618,7 @@ public class MainController {
         Optional<User> myUser = userRepository.findByUserName("Marina_Wang_01");
 
         if (myUser.isPresent()) {
-            if (passwordEncoder.matches(myUser.get().getPassword(), "marina1")) {
+            if (passwordEncoder.matches("marina1", myUser.get().getPassword())) {
                 return "Success";
             }
             else {
