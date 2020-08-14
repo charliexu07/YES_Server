@@ -202,6 +202,7 @@ or a user. A detailed description of all functionalities is attached below
 * Demo: see test fucnction
 * Test function: testUser(), testWrongUser()
 * Solution: Refine authority assigned to each role
+* Location: SecurityConfiguration.java, Line 70-78
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### XSS attack
@@ -209,6 +210,7 @@ or a user. A detailed description of all functionalities is attached below
 * Demo: see test fucnction
 * Test function: testXSS()
 * Solution: Ensure the script can be caught
+* Location: MainController.java, Line 582-587
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### CSRF attack
@@ -216,6 +218,7 @@ or a user. A detailed description of all functionalities is attached below
 * Demo: see test fucnction
 * Test function: testCSRF()
 * Solution: Enable csrf protection provided by spring security
+* Location: MainController.java, Line 590-605
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### Sql injection attack
@@ -223,6 +226,7 @@ or a user. A detailed description of all functionalities is attached below
 * Demo: see test fucnction
 * Test function: testSQLInjection1() and testSQLInjection2()
 * Solution: Ensure that only one query can be executed at a time when connecting tp database
+* Location: MainController.java, Line 561-579
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### Password Encoder Vulnerability
@@ -230,13 +234,5 @@ or a user. A detailed description of all functionalities is attached below
 * Demo: see test function
 * Test function: testPasswordEncoder()
 * Solution: Use BCryptPasswordEncoder to encode the password before storing user information into the database. Also, during the login process, the entered password will also be encripted to match the password stored in database.
+* Location: MainController.java, Line 610-632
 * Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
-
-### Brute Force Attack on login information (under implementation)
-* Description: On /login page, an attacker can try as many username-password pairs as it wants
-* Demo: see test fucnction
-* Test function: testBFA()
-* Solution: Implement classes that keep track of login failure information using spring security framework. See https://www.baeldung.com/spring-security-block-brute-force-authentication-attempts
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
-
-(Finalizing more)
