@@ -203,7 +203,6 @@ or a user. A detailed description of all functionalities is attached below
 * Test function: testUser(), testWrongUser()
 * Solution: Refine authority assigned to each role
 * Location: SecurityConfiguration.java, Line 70-78
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### XSS attack
 * Description: An attacker inject a malicious piece of script into the url
@@ -211,7 +210,6 @@ or a user. A detailed description of all functionalities is attached below
 * Test function: testXSS()
 * Solution: Ensure the script can be caught
 * Location: MainController.java, Line 582-587
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### CSRF attack
 * Description: An attacker cause user to carry out a query on product information unintentionally.
@@ -219,7 +217,6 @@ or a user. A detailed description of all functionalities is attached below
 * Test function: testCSRF()
 * Solution: Enable csrf protection provided by spring security
 * Location: MainController.java, Line 590-605
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### Sql injection attack
 * Description: An attacker can enter additional sql query element along with a product id. This will expose data in the database.
@@ -227,7 +224,6 @@ or a user. A detailed description of all functionalities is attached below
 * Test function: testSQLInjection1() and testSQLInjection2()
 * Solution: Ensure that only one query can be executed at a time when connecting tp database
 * Location: MainController.java, Line 561-579
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
 
 ### Password Encoder Vulnerability
 * Description: If the password of the user is stored in plain text, the attacker might be able to hack into the system and obtain the password
@@ -235,4 +231,3 @@ or a user. A detailed description of all functionalities is attached below
 * Test function: testPasswordEncoder()
 * Solution: Use BCryptPasswordEncoder to encode the password before storing user information into the database. Also, during the login process, the entered password will also be encripted to match the password stored in database.
 * Location: MainController.java, Line 610-632
-* Grading rubrics: completely ignoring the vulnerbility -10; code partialy implemented but fails the test -5; correct -0;
